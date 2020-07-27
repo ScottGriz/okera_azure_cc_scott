@@ -1,42 +1,39 @@
-view: transactions_amount_country {
-  derived_table: {
-    sql: WITH transaction_amount_by_country AS (SELECT
-        transactions_cc.country  AS "transactions_cc.country",
-        sum(transactions_cc.amount)  AS "transactions_cc.amount"
-      FROM creditcard.transactions_cc  AS transactions_cc
 
-      GROUP BY 1
+ view: transactions_amount_country {
+#   # Or, you could make this view a derived table, like this:
+   derived_table: {
+     sql: SELECT
+         country as country
+         , sum(amount) as amount
+       FROM transactions_cc
+       GROUP BY 1
       ORDER BY 1 DESC
-       )
-SELECT
-transaction_amount_by_country."transactions_cc.amount"  AS "transaction_amount_by_country.transactions_cc_amount",
-  transaction_amount_by_country."transactions_cc.country"  AS "transaction_amount_by_country.transactions_cc_country"
-FROM transaction_amount_by_country
-
-GROUP BY 1,2
-ORDER BY 1 DESC
-       )
- ;;
-  }
-
-  suggestions: no
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  dimension: transaction_amount_by_country_transactions_cc_amount {
-    type: number
-    sql: ${TABLE}."transaction_amount_by_country.transactions_cc_amount" ;;
-  }
-
-  dimension: transaction_amount_by_country_transactions_cc_country {
-    type: string
-    sql: ${TABLE}."transaction_amount_by_country.transactions_cc_country" ;;
-  }
-
-  set: detail {
-    fields: [transaction_amount_by_country_transactions_cc_amount, transaction_amount_by_country_transactions_cc_country]
-  }
+       ;;
+   }
+#
+#   # Define your dimensions and measures here, like this:
+   dimension: country {
+     description: "Country"
+     type: string
+     sql: ${TABLE}.country ;;
+   }
+#
+   dimension: amount {
+     description: "The sum of amount "
+     type: number
+     sql: ${TABLE}.amount ;;
+   }
+#
+#   dimension_group: most_recent_purchase {
+#     description: "The date when each user last ordered"
+#     type: time
+#     timeframes: [date, week, month, year]
+#     sql: ${TABLE}.most_recent_purchase_at ;;
+#   }
+#
+#   measure: total_lifetime_orders {
+#     description: "Use this for counting lifetime orders across many users"
+#     type: sum
+#     sql: ${lifetime_orders} ;;
+#   }
 }
