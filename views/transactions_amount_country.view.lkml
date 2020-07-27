@@ -7,7 +7,7 @@
          , sum(amount) as amount
        FROM transactions_cc
        GROUP BY country
-      ORDER BY country
+      ORDER BY country DESC
        ;;
    }
 #
