@@ -7,7 +7,7 @@
          , sum(amount) as amount
        FROM transactions_cc
        GROUP BY 1
-      ORDER BY 1 DESC
+      ORDER BY 1 ASC
        ;;
    }
 #
