@@ -6,8 +6,8 @@
          country as country
          , sum(amount) as amount
        FROM transactions_cc
-       GROUP BY 1
-      ORDER BY 1 ASC
+       GROUP BY country
+      ORDER BY country
        ;;
    }
 #
