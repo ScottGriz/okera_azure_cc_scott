@@ -8,14 +8,6 @@ view: transactions_amount_country {
       GROUP BY 1
       ORDER BY 1 DESC
        )
-SELECT
-transaction_amount_by_country."transactions_cc.amount"  AS "transaction_amount_by_country.transactions_cc_amount",
-  transaction_amount_by_country."transactions_cc.country"  AS "transaction_amount_by_country.transactions_cc_country"
-FROM transaction_amount_by_country
-
-GROUP BY 1,2
-ORDER BY 1 DESC
-LIMIT 500
  ;;
   }
 
